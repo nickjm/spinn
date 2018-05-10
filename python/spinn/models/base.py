@@ -12,6 +12,7 @@ from spinn.data.dual_arithmetic import load_eq_data, load_relational_data
 from spinn.data.boolean import load_boolean_data
 from spinn.data.listops import load_listops_data
 from spinn.data.sst import load_sst_data, load_sst_binary_data
+from spinn.data.sentiment import load_sentiment_data
 from spinn.data.nli import load_nli_data
 from spinn.util.blocks import EncodeGRU, IntraAttention, Linear, ReduceTreeGRU, ReduceTreeLSTM, ReduceTensor,  bundle
 from spinn.util.misc import Args
@@ -94,6 +95,8 @@ def get_data_manager(data_type):
         data_manager = load_eq_data
     elif data_type == "relational":
         data_manager = load_relational_data
+    elif data_type == "sentiment":
+        data_manager = load_sentiment_data
     else:
         raise NotImplementedError
 
@@ -225,7 +228,8 @@ def get_flags():
                         "listops",
                         "sign",
                         "eq",
-                        "relational"],
+                        "relational",
+                        "sentiment"],
                        "Which data handler and classifier to use.")
 
     # Choose Genre.

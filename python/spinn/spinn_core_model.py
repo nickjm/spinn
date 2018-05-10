@@ -46,7 +46,7 @@ def build_model(data_manager, initial_embeddings, vocab_size,
         mlp_ln=FLAGS.mlp_ln,
         context_args=context_args,
         composition_args=composition_args,
-        rl_skip=rl_skip_bad_batch,
+        rl_skip=None,
     )
 
 
