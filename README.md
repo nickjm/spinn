@@ -2,6 +2,11 @@
 
 This repository was used for the paper [A Fast Unified Model for Sentence Parsing and Understanding][1] and [original codebase][9], and is under active development for further projects. For a more informal introduction to the ideas behind the model, see this [Stanford NLP blog post][8].
 
+### Differences in Fork
+
+- Add 'sentiment' task (new dataloader and other minor changes). A parsed sentence without local sentiment labels is read and used to predict binary sentiment label
+- Minor bug fix with `rl_skip` parameter in core spinn model
+
 ### Installation
 
 Requirements:
