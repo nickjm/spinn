@@ -119,13 +119,19 @@ def load_data_and_embeddings(
         def choose_eval(x): return x.get('genre') == FLAGS.eval_genre
 
     if not FLAGS.expanded_eval_only_mode:
-        raw_training_data = data_manager.load_data(
-            training_data_path, FLAGS.lowercase, eval_mode=False)
+        print("TRAINING DATA")
+        if not FLAGS.limited_sst:
+            raw_training_data = data_manager.load_data(
+                training_data_path, FLAGS.lowercase, eval_mode=False)
+        else:
+            raw_training_data = data_manager.load_data(
+                training_data_path, FLAGS.lowercase, eval_mode=True)
     else:
         raw_training_data = None
 
     raw_eval_sets = []
     for path in eval_data_path.split(':'):
+        print("EVAL DATA")
         raw_eval_data = data_manager.load_data(
             path, FLAGS.lowercase, choose_eval, eval_mode=True)
         raw_eval_sets.append((path, raw_eval_data))
@@ -203,6 +209,10 @@ def get_flags():
         "debug",
         False,
         "Set to True to disable debug_mode and type_checking.")
+    gflags.DEFINE_bool(
+        "limited_sst",
+        False,
+        "Set to True to only use top level labels for TRAINING in SST task")
     gflags.DEFINE_bool(
         "show_progress_bar",
         True,
