@@ -39,25 +39,27 @@ def convert_unary_binary_bracketed_data(
         print("SST eval mode: Preserving only top node label.")
     examples = []
     with open(filename, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if len(line) == 0:
-                continue
-            stack = []
-            words = line.replace(')', ' )')
-            words = words.split(' ')
-            if top_node_only:
-                example = span_to_example(words, keep_fn, convert_fn, str(len(examples)))
-                if example is not None:
-                    examples.append(example)
-            else:
-                for index, word in enumerate(words):
-                    if word[0] != "(":
-                        if word == ")":
-                            start = stack.pop()
-                            example = span_to_example(words[start:index + 1], keep_fn, convert_fn, str(len(examples)))
-                            if example is not None:
-                                examples.append(example)
-                    else:
-                        stack.append(index)
+        with open(filename+'.chosen', 'a') as t:
+            for line in f:
+                line = line.strip()
+                if len(line) == 0:
+                    continue
+                stack = []
+                words = line.replace(')', ' )')
+                words = words.split(' ')
+                if top_node_only:
+                    example = span_to_example(words, keep_fn, convert_fn, str(len(examples)))
+                    if example is not None:
+                        examples.append(example)
+                        t.write(str(example)+'\n')
+                else:
+                    for index, word in enumerate(words):
+                        if word[0] != "(":
+                            if word == ")":
+                                start = stack.pop()
+                                example = span_to_example(words[start:index + 1], keep_fn, convert_fn, str(len(examples)))
+                                if example is not None:
+                                    examples.append(example)
+                        else:
+                            stack.append(index)
     return examples
