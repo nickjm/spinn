@@ -13,24 +13,26 @@ LABEL_MAP = {
 def convert_binary_bracketed_data(filename):
     examples = []
     with open(filename, 'r') as f:
-        for line in f:
-            example = {}
-            line = line.strip()
-            tab_split = line.split('\t')
-            example["label"] = tab_split[0]
-            example["sentence"] = tab_split[1]
-            example["tokens"] = []
-            example["transitions"] = []
+        with open(filename+'.chosen', 'a') as t:
+            for line in f:
+                example = {}
+                line = line.strip()
+                tab_split = line.split('\t')
+                example["label"] = tab_split[0]
+                example["sentence"] = tab_split[1]
+                example["tokens"] = []
+                example["transitions"] = []
 
-            for word in example["sentence"].split(' '):
-                if word != "(":
-                    if word != ")":
-                        example["tokens"].append(word)
-                    example["transitions"].append(1 if word == ")" else 0)
+                for word in example["sentence"].split(' '):
+                    if word != "(":
+                        if word != ")":
+                            example["tokens"].append(word)
+                        example["transitions"].append(1 if word == ")" else 0)
 
-            example["example_id"] = str(len(examples))
+                example["example_id"] = str(len(examples))
 
-            examples.append(example)
+                examples.append(example)
+                t.write(str(example)+'\n')
     return examples
 
 def load_data(path,
